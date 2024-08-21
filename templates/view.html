@@ -1,0 +1,93 @@
+{% extends "layout.html" %} {% block content %}
+<html>
+	<head>
+		<script>
+			var data = {{ data|tojson }};
+		</script>
+		<script src="../static/view.js"></script>
+	</head>
+	<body>
+		<br />
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div id="creature-image-container"></div>
+				</div>
+				<div class="col-md-8">
+					<div id="creature-basics">
+						<div id="creature-title-container">
+							<div id="creature-name"></div>
+							<button
+								id="edit-creature-button"
+								class="btn btn-outline-secondary">
+								Edit
+							</button>
+						</div>
+						<div id="creature-cr"></div>
+						<div id="creature-description"></div>
+						<div id="view-more-container"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<div class="row">
+						<div class="col-md-12">
+							<div id="creature-stats-label"></div>
+						</div>
+					</div>
+					<div class="row creature-entries">
+						<div class="creature-entry col-4">
+							<div id="creature-type"></div>
+						</div>
+						<div class="creature-entry col-4">
+							<div id="creature-alignment"></div>
+						</div>
+						<div class="creature-entry col-4">
+							<div id="creature-size"></div>
+						</div>
+					</div>
+					<div class="row creature-entries">
+						<div class="creature-entry col-4">
+							<div id="creature-hp"></div>
+						</div>
+						<div class="creature-entry col-4">
+							<div id="creature-ac"></div>
+						</div>
+						<div class="creature-entry col-4">
+							<div id="creature-movement"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="row">
+						<div class="col-md-12">
+							<div id="creature-more-label">
+								View Similar Creatures
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 view-more-button-container">
+							<button
+								id="view-more-type"
+								class="view-more-button accent"></button>
+						</div>
+						<div class="col-md-4 view-more-button-container">
+							<button
+								id="view-more-alignment"
+								class="view-more-button accent"></button>
+						</div>
+						<div class="col-md-4 view-more-button-container">
+							<button
+								id="view-more-cr"
+								class="view-more-button accent"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %} {% block content %}
+<html>
+	<head>
+		<script>
+			var data = {{ data|tojson }};
+		</script>
+		<script src="../static/home.js"></script>
+	</head>
+	<body>
+		<br />
+		<div class="row">
+			<div class="col-4">
+				<img
+					src="https://t3.ftcdn.net/jpg/06/35/99/80/360_F_635998035_XY0bO9eUhdtGw3Lvs7J68QSB1OvyjoBI.jpg"
+					alt="Compendium" />
+			</div>
+			<div class="col-8">
+				<div class="row">
+					<h1 id="welcome" class="col-12">Welcome to Compendium!</h1>
+				</div>
+				<br />
+				<div class="row">
+					<h5 class="col-12 dark-gray">
+						Compendium is a website built to help you find Dungeons
+						and Dragons creatures for your campaigns. Use the navbar
+						above to search for creatures by
+						<span class="base">name</span>,
+						<span class="base">type</span>,
+						<span class="base">challenge rating</span>, or
+						<span class="base">alignment</span>
+						or alternatively, click on one of the popular items
+						below!
+					</h5>
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
+		<div class="row"><h2 class="col-12">Popular Items</h2></div>
+		<div id="popular-items-container">
+			<div id="popular-items" class="row"></div>
+		</div>
+	</body>
+</html>
+
+{% endblock %}

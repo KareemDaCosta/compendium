@@ -1,0 +1,309 @@
+{% extends "layout.html" %} {% block content %}
+<html>
+	<head>
+		<script>
+			var data = {{ data|tojson }};
+		</script>
+		<script src="../static/edit.js"></script>
+	</head>
+	<body>
+		<div
+			class="modal fade"
+			id="cancel-modal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="cancel-modal-label"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Are You Sure You Want to Discard Changes?
+						</h5>
+						<button
+							type="button"
+							class="close"
+							data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Your changes will not be saved.
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-dismiss="modal"
+							id="continue-editing">
+							Continue Editing
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							id="confirm-discard-changes">
+							Discard Changes
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>Edit Creature</h2>
+					<div class="error-box">
+						<div class="error-message" id="error-message"></div>
+					</div>
+					<form id="edit-creature-form">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<label for="edit-form-name">Name</label>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-name"
+										name="name"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-name-feedback"></div>
+								</div>
+								<div class="col-md-4 col-6">
+									<label for="edit-form-image"
+										>Image (URL)</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-image"
+										name="image"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-image-feedback"></div>
+								</div>
+								<div
+									class="col-md-4 col-6 img-preview"
+									id="edit-form-image-preview"></div>
+								<div class="col-md-12">
+									<label for="edit-form-description"
+										>Description</label
+									>
+									<textarea
+										class="form-control"
+										id="edit-form-description"
+										name="description"
+										rows="4"
+										cols="50"
+										required></textarea>
+									<div
+										class="invalid-feedback"
+										id="invalid-description-feedback"></div>
+								</div>
+								<div class="col-md-12">
+									<label for="edit-form-url"
+										>View More (URL)</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-url"
+										name="url"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-url-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-cr"
+										>Challenge Rating</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-cr"
+										name="cr"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-cr-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-type">Type</label>
+									<select
+										name="type"
+										id="edit-form-type"
+										class="form-select"
+										required>
+										<option>Aberration</option>
+										<option>Beast</option>
+										<option>Celestial</option>
+										<option>Construct</option>
+										<option>Dragon</option>
+										<option>Elemental</option>
+										<option>Fey</option>
+										<option>Fiend</option>
+										<option>Giant</option>
+										<option selected="selected">
+											Humanoid
+										</option>
+										<option>Monstrosity</option>
+										<option>Ooze</option>
+										<option>Plant</option>
+										<option>Undead</option>
+									</select>
+									<div
+										class="invalid-feedback"
+										id="invalid-type-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-alignment"
+										>Alignment</label
+									>
+									<select
+										name="alignment"
+										id="edit-form-alignment"
+										class="form-select"
+										required>
+										<option>Lawful Good</option>
+										<option>Neutral Good</option>
+										<option>Chaotic Good</option>
+										<option>Lawful Neutral</option>
+										<option>Neutral</option>
+										<option>Chaotic Neutral</option>
+										<option>Lawful Evil</option>
+										<option>Neutral Evil</option>
+										<option>Chaotic Evil</option>
+										<option>Any Good</option>
+										<option>Any Evil</option>
+										<option>Any Lawful</option>
+										<option>Any Chaotic</option>
+										<option selected="selected">
+											Unaligned
+										</option>
+									</select>
+									<div
+										class="invalid-feedback"
+										id="invalid-alignment-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-size">Size</label>
+									<select
+										name="size"
+										id="edit-form-size"
+										class="form-select"
+										required>
+										<option>Tiny</option>
+										<option>Small</option>
+										<option selected="selected">
+											Medium
+										</option>
+										<option>Large</option>
+										<option>Huge</option>
+										<option>Gargantuan</option>
+									</select>
+									<div
+										class="invalid-feedback"
+										id="invalid-size-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-hp">Hit Points</label>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-hp"
+										name="hp"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-hp-feedback"></div>
+								</div>
+								<div class="col-md-2 col-6">
+									<label for="edit-form-ac"
+										>Armor Class</label
+									>
+									<input
+										type="text"
+										class="form-control"
+										id="edit-form-ac"
+										name="ac"
+										required />
+									<div
+										class="invalid-feedback"
+										id="invalid-ac-feedback"></div>
+								</div>
+								<div class="col-lg-4 col-md-7 col-12">
+									<label for="Speed">Speed</label>
+									<div id="speeds-container">
+										<div
+											class="row speed-row"
+											id="speed-row-0">
+											<div class="col-5">
+												<select
+													name="speed-type-0"
+													id="edit-form-speed-type-0"
+													class="form-select edit-form-speed-type"
+													required>
+													<option>Burrow</option>
+													<option>Climb</option>
+													<option>Fly</option>
+													<option>Swim</option>
+													<option selected="selected">
+														Walk
+													</option>
+												</select>
+											</div>
+											<div class="col-6">
+												<input
+													type="text"
+													class="form-control edit-form-speed-distance"
+													id="edit-form-speed-0"
+													name="speed-0"
+													required />
+											</div>
+											<div class="col-md-12">
+												<div
+													class="invalid-feedback"
+													id="invalid-speed-feedback-0"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-7 col-lg-9">
+										<button
+											type="button"
+											id="add-additional-speed-button"
+											class="accent">
+											Add Additional Speed
+										</button>
+									</div>
+								</div>
+								<div
+									class="col-lg-3 d-none d-lg-block behind"></div>
+								<div class="col-md-2 col-4 button-container">
+									<button
+										type="button"
+										class="btn btn-outline-secondary dark-gray"
+										id="cancel-button">
+										Discard Changes
+									</button>
+								</div>
+								<div class="col-md-3 col-8 button-container">
+									<button
+										type="button"
+										class="submit-button base semi-bold"
+										id="submit-button">
+										Submit
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+{% endblock %}
