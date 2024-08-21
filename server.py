@@ -14,6 +14,13 @@ current_id = 12
 def home():
     return render_template("home.html", data=data)
 
+@app.route('/session', methods=['POST'])
+def session():
+    json_data = request.get_json()
+    if hasattr(json_data, 'session_id') and json_data["session_id"] in base_data.user_data:
+        data = base_data.user_data[json_data["session_id"]]
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
 @app.route('/search/<search_term>', methods=['GET'])
 def search(search_term):
     search_results = []

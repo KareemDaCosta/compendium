@@ -19,4 +19,15 @@ $(document).ready(function() {
     $("#search-button").on("click", function() {
         handle_navbar_search();
     });
+    if(localStorage.getItem("session_id") != null) {
+        $.ajax({
+            type: "POST",
+            url: "/session",
+            data: JSON.stringify({
+                "session_id": localStorage.getItem("session_id")
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    }
 });
