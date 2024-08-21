@@ -248,5 +248,3 @@ data = {
         "description": "Balors in Dungeons & Dragons are towering demons of immense power and malevolence. With flaming whips and massive swords wreathed in hellfire, they are fearsome adversaries to even the most seasoned adventurers. Possessing wings that allow them to soar through the skies with deadly grace, Balors command legions of lesser demons with iron-clad authority. Their very presence instills terror, as they embody the chaotic and destructive forces of the Nine Hells, leaving ruin and despair in their wake."
     }
 }
-
-user_data = dict()

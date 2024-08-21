@@ -248,7 +248,8 @@ $(document).ready(function() {
                 "size": size,
                 "hp": hp,
                 "ac": ac,
-                "speeds": speeds
+                "speeds": speeds,
+                "session_id": localStorage.getItem("session_id")
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -268,14 +269,17 @@ $(document).ready(function() {
                     $("#error-message").text("");
                     $("#add-form-name").focus();
                     $('.invalid-feedback').empty()
-                    
-                    $("#toast-body").html(`Creature <span class="base bold">${name}</span> added successfully. View <a href="/view/${data["id"]}">here</a>`);
+                    if(data["session_id"] != null && localStorage.getItem("session_id") != data["session_id"]) {
+                        localStorage.setItem("session_id", data["session_id"]);
+                    }
+                    const session_id = localStorage.getItem("session_id");
+                    const url = session_id ? `/view/${data.id}/${session_id}` : `/view/${data.id}`;
+                    $("#toast-body").html(`Creature <span class="base bold">${name}</span> added successfully. View <a href=${url}>here</a>`);
                     var bsToast = new bootstrap.Toast(document.getElementById('success-toast'), {autohide: false});
                     bsToast.show();
                     $("#close-toast-button").click(function() {
                         bsToast.hide();
                     });
-                    
                 } else {
                     $("#error-message").text(data["error"]);
                 }

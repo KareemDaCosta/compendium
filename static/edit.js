@@ -282,7 +282,8 @@ $(document).ready(function() {
                 "size": size,
                 "hp": hp,
                 "ac": ac,
-                "speeds": speeds
+                "speeds": speeds,
+                "session_id": localStorage.getItem("session_id"),
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -301,7 +302,8 @@ $(document).ready(function() {
                     $("#error-message").text("");
                     $("#edit-form-name").focus();
                     $('.invalid-feedback').empty()
-                    window.location.href = `/view/${creature.id}`;
+                    const url = localStorage.getItem("session_id") ? `/view/${creature.id}/${localStorage.getItem("session_id")}` : `/view/${creature.id}`;
+                    window.location.href = url;
                 } else {
                     $("#error-message").text(data["error"]);
                 }
