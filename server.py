@@ -1,7 +1,9 @@
 import random
+import secrets
 from flask import Flask
 from flask import render_template
 from flask import Response, request, jsonify, redirect
+from flask import session
 import json
 import base_data
 app = Flask(__name__)
@@ -11,6 +13,13 @@ user_data = {}
 @app.route('/', methods=['GET'])
 def home():
     return render_template("home.html", data=get_data())
+
+@app.route('/session', methods=['POST'])
+def set_session():
+    json_data = request.get_json()
+    if hasattr(json_data, 'session_id') and json_data["session_id"] in base_data.user_data:
+        session['session_id'] = json_data["session_id"]
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 @app.route('/search/<search_term>', methods=['GET'])
 def search(search_term):
@@ -33,9 +42,8 @@ def search(search_term):
 
 @app.route('/view/<id>', methods=['GET'])
 def view(id):
-    session_id = request.args.get('session_id')
-    if str(id) in get_data(session_id):
-        return render_template("view.html", data=get_data(session_id)[id])
+    if str(id) in get_data():
+        return render_template("view.html", data=get_data()[id])
     return render_template("404.html")
 
 @app.route('/add', methods=['GET'])
@@ -50,8 +58,11 @@ def add_creature():
     speeds = []
     for speed in json_data['speeds']:
         speeds.append({"type": speed['type'].lower(), "distance": int(speed['distance'])})
-    session_id = json_data['session_id'] if 'session_id' in json_data and json_data["session_id"] in user_data else createSessionId()
-    get_data(session_id)[str(current_id)] = {
+    if('session_id' in json_data):
+        session['session_id'] = json_data['session_id']
+    else:
+        session['session_id'] = createSessionId()
+    get_data()[str(current_id)] = {
         "id": current_id,
         "name": json_data['name'],
         "url": json_data['url'],
@@ -65,7 +76,7 @@ def add_creature():
         "movement": speeds,
         "description": json_data['description']
     }
-    return json.dumps({'success':True, "id": current_id, "session_id": session_id}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True, "id": current_id, "session_id": session.get("session_id")}), 200, {'ContentType':'application/json'} 
     
 @app.route('/edit/<id>', methods=['GET'])
 def edit(id):
@@ -79,8 +90,11 @@ def edit_creature():
     speeds = []
     for speed in json_data['speeds']:
         speeds.append({"type": speed['type'].lower(), "distance": int(speed['distance'])})
-    session_id = json_data['session_id'] if 'session_id' in json_data and json_data["session_id"] in user_data else createSessionId()
-    get_data(session_id)[str(json_data['id'])] = {
+    if('session_id' in json_data):
+        session['session_id'] = json_data['session_id']
+    else:
+        session['session_id'] = createSessionId()
+    get_data()[str(json_data['id'])] = {
         "id": int(json_data['id']),
         "name": json_data['name'],
         "url": json_data['url'],
@@ -94,15 +108,15 @@ def edit_creature():
         "movement": speeds,
         "description": json_data['description']
     }
-    return json.dumps({'success':True, "id": json_data['id'], "session_id": session_id}), 200, {'ContentType':'application/json'}
+    return json.dumps({'success':True, "id": json_data['id'], "session_id": session.get("session_id")}), 200, {'ContentType':'application/json'}
 
-def get_data(session_id = None):
-    if(session_id == None):
+def get_data():
+    if(session.get('session_id') == None):
         return base_data.data
-    elif session_id not in user_data:
-        user_data[session_id] = base_data.data.copy()
-        return user_data[session_id]
-    return user_data[session_id]
+    elif session.get('session_id') not in user_data:
+        user_data[session.get('session_id')] = base_data.data.copy()
+        return user_data[session.get('session_id')]
+    return user_data[session.get('session_id')]
 
 def createSessionId():
     session_id = random.randint(100000000, 999999999)
@@ -112,4 +126,5 @@ def createSessionId():
     
 
 if __name__ == '__main__':
+    app.secret_key = secrets.token_urlsafe(16)
     app.run()

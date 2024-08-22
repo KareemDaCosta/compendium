@@ -31,8 +31,19 @@ $(document).ready(function() {
     $( "#view-more-cr ").on("click", function() { 
         window.location.href = `/search/${creature.cr}`;
     })
-
     $( "#edit-creature-button" ).on("click", function() {
         window.location.href = `/edit/${creature.id}`;
     });
+    
+    if(localStorage.getItem("session_id") != null) {
+        $.ajax({
+            type: "POST",
+            url: "/session",
+            data: JSON.stringify({
+                "session_id": localStorage.getItem("session_id")
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    }
 });
