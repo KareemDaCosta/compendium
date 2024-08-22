@@ -7,6 +7,7 @@ from flask import session
 import json
 import base_data
 app = Flask(__name__)
+app.secret_key = secrets.token_urlsafe(16)
 
 user_data = {}
 
@@ -126,5 +127,4 @@ def createSessionId():
     
 
 if __name__ == '__main__':
-    app.secret_key = secrets.token_urlsafe(16)
     app.run()
