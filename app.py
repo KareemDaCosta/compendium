@@ -59,7 +59,7 @@ def add_creature():
     speeds = []
     for speed in json_data['speeds']:
         speeds.append({"type": speed['type'].lower(), "distance": int(speed['distance'])})
-    if('session_id' in json_data):
+    if('session_id' in json_data and json_data['session_id'] != None):
         session['session_id'] = json_data['session_id']
     else:
         session['session_id'] = createSessionId()
@@ -91,7 +91,7 @@ def edit_creature():
     speeds = []
     for speed in json_data['speeds']:
         speeds.append({"type": speed['type'].lower(), "distance": int(speed['distance'])})
-    if('session_id' in json_data):
+    if('session_id' in json_data and json_data['session_id'] != None):
         session['session_id'] = json_data['session_id']
     else:
         session['session_id'] = createSessionId()
