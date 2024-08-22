@@ -31,17 +31,11 @@ def search(search_term):
             
     return render_template("search.html", data=search_results, search_term=search_term)
 
-@app.route('/view/<id>/<session_id>', methods=['GET'])
-def view_with_id(id, session_id):
-    if str(id) in get_data(session_id):
-        print(get_data(session_id)[id])
-        return render_template("view.html", data=get_data(session_id)[id])
-    return render_template("404.html")
-
 @app.route('/view/<id>', methods=['GET'])
 def view(id):
-    if str(id) in get_data():
-            return render_template("view.html", data=get_data()[id])
+    session_id = request.args.get('session_id')
+    if str(id) in get_data(session_id):
+        return render_template("view.html", data=get_data(session_id)[id])
     return render_template("404.html")
 
 @app.route('/add', methods=['GET'])

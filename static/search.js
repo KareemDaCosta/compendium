@@ -24,7 +24,7 @@ function createItemCardHTML(item) {
         extra_info = `<div class="item-card-subtext">Alignment: ${alignment}</div>`;
     }
     const session_id = localStorage.getItem("session_id");
-    const url = session_id ? `/view/${data.id}/${session_id}` : `/view/${data.id}`;
+    const url = session_id ? `/view/${data.id}?session_id=${session_id}` : `/view/${data.id}`;
     return `<a href="${url}">
                 <div class="item-card" data-id="item-${data.id}">
                     <div class="item-card-image-container">

@@ -302,7 +302,7 @@ $(document).ready(function() {
                     $("#error-message").text("");
                     $("#edit-form-name").focus();
                     $('.invalid-feedback').empty()
-                    const url = localStorage.getItem("session_id") ? `/view/${creature.id}/${localStorage.getItem("session_id")}` : `/view/${creature.id}`;
+                    const url = localStorage.getItem("session_id") ? `/view/${creature.id}?session_id=${localStorage.getItem("session_id")}` : `/view/${creature.id}`;
                     window.location.href = url;
                 } else {
                     $("#error-message").text(data["error"]);

@@ -273,7 +273,7 @@ $(document).ready(function() {
                         localStorage.setItem("session_id", data["session_id"]);
                     }
                     const session_id = localStorage.getItem("session_id");
-                    const url = session_id ? `/view/${data.id}/${session_id}` : `/view/${data.id}`;
+                    const url = session_id ? `/view/${data.id}?session_id=${session_id}` : `/view/${data.id}`;
                     $("#toast-body").html(`Creature <span class="base bold">${name}</span> added successfully. View <a href=${url}>here</a>`);
                     var bsToast = new bootstrap.Toast(document.getElementById('success-toast'), {autohide: false});
                     bsToast.show();
